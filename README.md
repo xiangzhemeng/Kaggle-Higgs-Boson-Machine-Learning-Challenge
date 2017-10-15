@@ -4,7 +4,7 @@
 - Sung Lin Chan
 - Xiangzhe Meng
 
-**main.py**: Required Algrithms
+**main.py**: Required Functions
 
 **main.ipynb**: Running Examples of Functions
 
