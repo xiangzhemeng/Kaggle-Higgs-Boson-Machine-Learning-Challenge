@@ -1,8 +1,8 @@
 # EPFL Machine Learning Porject1
 
-main.py: Required Algrithms
+**main.py**: Required Algrithms
 
-main.ipynb: Running Examples of Functions
+**main.ipynb**: Running Examples of Functions
 
 
 - Süha Kagan Köse
