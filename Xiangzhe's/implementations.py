@@ -4,7 +4,7 @@ from tools import *
 
 
 def least_squares_gd(y, tx, initial_w, max_iters, gamma):
-    """ Linear regression using gradient descent""" 
+    """ Linear regression using gradient descent"""
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
     loss = 0
@@ -26,7 +26,7 @@ def least_squares_sgd(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     batch_size = 1
     for n_iter in range(max_iters):
-        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size = batch_size, num_batches = 1):
             # compute stochastic loss and gradient
             loss = compute_loss(y, tx, w)
             grad = compute_gradient(y_batch, tx_batch, w)
@@ -62,19 +62,18 @@ def learning_by_gradient_descent(y, tx, w, gamma):
     w -= gamma * grad
     return w, loss
 
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     if (initial_w is None):
-        initial_w = np.zeros(tx.shape[1])    
+        initial_w = np.zeros(tx.shape[1])
     w = initial_w
-    y = (1+y)/2 #transform -1 --> 0 and 1 --> 1
     losses = []
-    threshold = 0.1
-    
+    threshold = 1e-8
+
     for iter in range(max_iters):
         # get loss and update w.
         w, loss = learning_by_gradient_descent(y, tx, w, gamma)
         losses.append(loss)
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
-
     return w, loss

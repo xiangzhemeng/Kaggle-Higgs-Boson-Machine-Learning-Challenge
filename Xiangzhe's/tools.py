@@ -1,26 +1,45 @@
 import numpy as np
 
 
+def compute_accuracy(y_pred, y_real):
+    count = 0
+    for idx, value in enumerate(y_real):
+        if value == y_pred[idx]:
+            count += 1
+    return count / len(y_real)
+
+
 def compute_gradient(y, tx, w):
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad
 
 
-def standardize(x, mean_x=None, std_x=None):
-    if mean_x is None:
-        mean_x = np.mean(x, axis=0)
-    x = x - mean_x
-    if std_x is None:
-        std_x = np.std(x, axis=0)
-    x[:, std_x > 0] = x[:, std_x > 0] / std_x[std_x > 0]
-    return x, mean_x, std_x
+def standardize(x, mean = None, std = None):
+    if mean is None:
+        mean = np.mean(x, axis=0)
+    x = x - mean
+    if std is None:
+        std = np.std(x, axis=0)
+    x[:,std > 0] = x[:,std > 0] / std[std > 0]
+    return x, mean, std
 
 
-def build_poly(x, degree):
-    poly = np.ones((len(x), 1))
+def build_polynomial_features(x, degree):
+    temp_dict = {}
+    count = 0
+    for i in range(x.shape[1]):
+        for j in range(i+1,x.shape[1]):
+            temp = x[:,i] * x[:,j]
+            temp_dict[count] = [temp]
+            count += 1
+    poly_length = x.shape[1] * (degree) + count + 1
+    poly = np.zeros(shape = (x.shape[0], poly_length))
     for deg in range(1,degree+1):
-        poly = np.c_[poly, np.power(x, deg)]
+        for i in range(x.shape[1]):
+            poly[:,i + (deg-1) * x.shape[1]] = np.power(x[:,i],deg)
+    for i in range(count):
+        poly[:, x.shape[1] * degree + i] = temp_dict[i][0]
     return poly
 
 
@@ -70,44 +89,25 @@ def replace_missing_data_by_frequent_value(x_train, x_test):
     return x_train, x_test
 
 
+def group_features_by_jet(x):
+    return {  0: x[:, 22] == 0,
+              1: x[:, 22] == 1,
+              2: np.logical_or(x[:, 22] == 2, x[:, 22] == 3)  }
+
+
 def process_data(x_train, x_test):
     x_train, x_test = replace_missing_data_by_frequent_value(x_train, x_test)
 
     log_cols_index = [0, 1, 2, 5, 7, 9, 10, 13, 16, 19, 21, 23, 26]
-
-    # Create inverse log values of features which are positive in value.
     x_train_log_cols_index = np.log(1 / (1 + x_train[:, log_cols_index]))
     x_train = np.hstack((x_train, x_train_log_cols_index))
-
     x_test_log_cols_index = np.log(1 / (1 + x_test[:, log_cols_index]))
     x_test = np.hstack((x_test, x_test_log_cols_index))
 
-    x_train, mean_x_train, std_x_train = standardize(x_train)
-    x_test, mean_x_test, std_x_test = standardize(x_test, mean_x_train, std_x_train)
+    x_train, mean_train, std_train = standardize(x_train)
+    x_test, mean_test, std_test = standardize(x_test, mean_train, std_train)
 
-    return x_train, x_test
-
-
-def process_data_ridge_regression(x_train, x_test,jet_index):
-    #After discarding all the NaN value colums, there are still some NaN values in serveral columns
-    x_train, x_test = replace_missing_data_by_frequent_value(x_train, x_test)
-
-    #choose positive columns to log
-    if jet_index == 0:
-        log_cols_index = [0, 1, 2, 4, 5, 6, 8, 11, 14, 16]
-    elif jet_index == 1:
-        log_cols_index = [0, 1, 2, 4, 6, 7, 9, 12, 15, 17, 18]
-    else: #jet_index == 2 or 3
-        log_cols_index = [0, 1, 2, 5, 7, 9, 10, 13, 16, 19, 21, 23, 26]
-
-    # Create inverse log values of features which are positive in value.
-    x_train_log_cols_index = np.log(1/(1 + x_train[:, log_cols_index]))
-    x_train = np.hstack((x_train, x_train_log_cols_index))
-
-    x_test_log_cols_index = np.log(1/(1 + x_test[:, log_cols_index]))
-    x_test = np.hstack((x_test, x_test_log_cols_index))
-
-    x_train, mean_x_train, std_x_train = standardize(x_train)
-    x_test, mean_x_test, std_x_test = standardize(x_test, mean_x_train, std_x_train)
+    x_train = np.delete(x_train, [15,18,20,25,28], 1)
+    x_test = np.delete(x_test, [15,18,20,25,28], 1)
 
     return x_train, x_test
