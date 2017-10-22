@@ -5,7 +5,7 @@ from tools import *
 
 """Linear Regression Gradient Descend using MSE"""
 
-def least_squares_GD(y, tx, initial_w=None, max_iters=1000, gamma):
+def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """ Linear regression using gradient descent"""
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
@@ -24,7 +24,7 @@ def least_squares_GD(y, tx, initial_w=None, max_iters=1000, gamma):
 
 """Linear Regression Stochastic Gradient Descend using MSE"""
 
-def least_squares_SGD(y, tx, initial_w=None, max_iters=1000, gamma):
+def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     """ Linear regression using stochastic gradient descent"""
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
@@ -76,7 +76,7 @@ def learning_by_gradient_descent(y, tx, w, gamma):
     return w, loss
 
 
-def logistic_regression(y, tx, initial_w=None, max_iters=1000, gamma):
+def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
@@ -106,7 +106,7 @@ def penalized_logistic_regression(y, tx, w, lambda_):
     return loss, gradient
 
 
-def reg_logistic_regression(y, tx, lambda_, initial_w=None, max_iters=1000, gamma):
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])

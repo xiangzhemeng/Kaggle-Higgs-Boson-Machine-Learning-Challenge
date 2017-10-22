@@ -10,8 +10,6 @@ print('Start loading data...\n')
 DATA_TRAIN_PATH = 'data/train.csv'
 DATA_TEST_PATH = 'data/test.csv'
 
-print('Start training...\n')
-
 y_train, tx_train, ids_train = load_csv_data(DATA_TRAIN_PATH)
 _, tx_test, ids_test = load_csv_data(DATA_TEST_PATH)
 
@@ -26,6 +24,8 @@ dict_jets_test = group_features_by_jet(tx_test)
 # Set individual parameter, lambda and polynomial degree  for each subset
 lambdas = [0.0001, 0.0001, 0.0001]
 degrees =  [12, 13, 10]
+
+print('Start training...\n')
 
 for index in range(len(dict_jets_train)):
     x_train = tx_train[dict_jets_train[index]]
