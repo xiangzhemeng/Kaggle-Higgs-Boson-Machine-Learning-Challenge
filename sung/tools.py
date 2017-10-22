@@ -33,29 +33,30 @@ def build_polynomial_features(x, degree):
             temp = x[:,i] * x[:,j]
             temp_dict[count] = [temp]
             count += 1
-    poly_length = x.shape[1] * (degree) + count + 1
+    poly_length = x.shape[1] * (degree + 1) + count + 1
     poly = np.zeros(shape = (x.shape[0], poly_length))
     for deg in range(1,degree+1):
         for i in range(x.shape[1]):
             poly[:,i + (deg-1) * x.shape[1]] = np.power(x[:,i],deg)
     for i in range(count):
         poly[:, x.shape[1] * degree + i] = temp_dict[i][0]
+    for i in range(x.shape[1]):
+        poly[:,i + x.shape[1] * degree + count] = np.abs(x[:,i])**0.5
     return poly
 
-
-### New poly 
+### New poly
 
 def build_polynomial_features_new(x, degree):
-    
+
     combination_idx = {}
-    
+
     m, n = x.shape
-    
+
     # power of column
     for i in range(n):
         for j in range(0, degree):
             combination_idx[i+ (j)*n] = [i] * (j+1)
-    
+
     # Cross term
     cross_idx = len(combination_idx.keys())
     for i in range(n):
@@ -65,10 +66,10 @@ def build_polynomial_features_new(x, degree):
                 combination_idx[cross_idx] = [i, j]
     # gen_poly
     poly = np.zeros(shape=(m, cross_idx + 1))
-    
+
     for key in combination_idx.keys():
         poly[:, key] = x[:, combination_idx[key]].prod(1)
-    
+
     return poly
 
 def build_k_indices(y, k_fold, seed):
