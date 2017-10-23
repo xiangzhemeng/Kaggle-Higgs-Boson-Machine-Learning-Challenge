@@ -10,7 +10,7 @@ print('Start loading data...\n')
 DATA_TRAIN_PATH = 'data/train.csv'
 DATA_TEST_PATH = 'data/test.csv'
 
-y_train, tx_train, ids_train = load_csv_data(DATA_TRAIN_PATH)
+y, tx_train, ids_train = load_csv_data(DATA_TRAIN_PATH)
 _, tx_test, ids_test = load_csv_data(DATA_TEST_PATH)
 
 # Generate empty output prediction matrix
