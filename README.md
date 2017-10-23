@@ -40,7 +40,7 @@ Contain the mandatory implementations of  6 regression models for this project
 - **`least_squares`**: Least squares regression using normal equations
 - **`ridge_regression`**: Ridge regression using normal equations
 - **`logistic_regression`**: using stochastic gradient descent
-- **`reg_logistic_regression`**: Regularized logistic regression
+- **`regularized_logistic_regression`**: Regularized logistic regression
 
 ### `main.py`
 Script that generates the exact CSV file submitted on Kaggle.
@@ -48,6 +48,8 @@ Script that generates the exact CSV file submitted on Kaggle.
 ## Others 
 ### `grid_search_for_param.ipynb`
 An python notebook used for finding the best hyperparameters by running cross-validation
+### `ML_Project1_Analysis_Notebook.ipynb`
+An python notebook used for doing some feature engineering tests and finding the best method to do the final prediction by implementing cross validation for all 6 methods and comparing the average test accuracy
 
 
 
