@@ -3,9 +3,9 @@ from costs import *
 from tools import *
 
 
-"""Linear Regression Gradient Descend using MSE"""
+"""least_squares_gd"""
 
-def least_squares_GD(y, tx, initial_w, max_iters, gamma):
+def least_squares_gd(y, tx, initial_w, max_iters, gamma):
     """ Linear regression using gradient descent"""
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
@@ -17,14 +17,12 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
         grad = compute_gradient(y, tx, w)
         # update w by gradient
         w -= gamma * grad
-
     return w, loss
 
 
+"""least_squares_sgd"""
 
-"""Linear Regression Stochastic Gradient Descend using MSE"""
-
-def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
+def least_squares_sgd(y, tx, initial_w, max_iters, gamma):
     """ Linear regression using stochastic gradient descent"""
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
@@ -38,24 +36,21 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             grad = compute_gradient(y_batch, tx_batch, w)
             # update w by stochastic gradient
             w -= gamma * grad
-
     return w, loss
 
 
-"""Least Squares"""
-
+"""least squares"""
 
 def least_squares(y, tx):
     """ Least squares regression using normal equations"""
     m = tx.T.dot(tx)
     n = tx.T.dot(y)
-    w = np.linalg.solve(m, n) #sovle: mX=n ==> X
+    w = np.linalg.solve(m, n) #sovle: mX=n --> X
     loss = compute_loss(y, tx, w)
     return w, loss
 
 
-"""Ridge Regression"""
-
+"""ridge regression"""
 
 def ridge_regression(y, tx, lambda_):
     """ Ridge regression using normal equations"""
@@ -67,7 +62,7 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 
-"""Logistic Regression"""
+"""logistic regression"""
 
 def learning_by_gradient_descent(y, tx, w, gamma):
     loss = compute_loss_neg_log_likelihood(y, tx, w)
@@ -77,10 +72,8 @@ def learning_by_gradient_descent(y, tx, w, gamma):
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
-
     w = initial_w
     losses = []
     threshold = 1e-8
@@ -89,15 +82,12 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         # get loss and update w.
         w, loss = learning_by_gradient_descent(y, tx, w, gamma)
         losses.append(loss)
-
-        # Stop criteria
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
-    return w, losses[-1]
+    return w, loss
 
 
 """Regularized Logistic Regression"""
-
 
 def penalized_logistic_regression(y, tx, w, lambda_):
     loss = compute_loss_neg_log_likelihood(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
@@ -105,16 +95,13 @@ def penalized_logistic_regression(y, tx, w, lambda_):
 
     return loss, gradient
 
-
-def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-
+def regularized_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
 
     w = initial_w
     losses = []
     threshold = 1e-8
-
 
     for n_iter in range(max_iters):
         # get loss and update w.
@@ -127,5 +114,3 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             break
 
     return w, losses[-1]
-
-
