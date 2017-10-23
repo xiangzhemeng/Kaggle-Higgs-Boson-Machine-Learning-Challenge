@@ -24,7 +24,6 @@ def standardize(x, mean = None, std = None):
     x[:,std > 0] = x[:,std > 0] / std[std > 0]
     return x, mean, std
 
-
 def build_polynomial_features(x, degree):
     temp_dict = {}
     count = 0
@@ -44,34 +43,6 @@ def build_polynomial_features(x, degree):
         poly[:,i + x.shape[1] * degree + count] = np.abs(x[:,i])**0.5
     return poly
 
-
-### New poly
-
-def build_polynomial_features_new(x, degree):
-
-    combination_idx = {}
-
-    m, n = x.shape
-
-    # power of column
-    for i in range(n):
-        for j in range(0, degree):
-            combination_idx[i+ (j)*n] = [i] * (j+1)
-
-    # Cross term
-    cross_idx = len(combination_idx.keys())
-    for i in range(n):
-        for j in range(i, n):
-            if i != j:
-                cross_idx += 1
-                combination_idx[cross_idx] = [i, j]
-    # gen_poly
-    poly = np.zeros(shape=(m, cross_idx + 1))
-
-    for key in combination_idx.keys():
-        poly[:, key] = x[:, combination_idx[key]].prod(1)
-
-    return poly
 
 def build_k_indices(y, k_fold, seed):
     num_row = y.shape[0]
