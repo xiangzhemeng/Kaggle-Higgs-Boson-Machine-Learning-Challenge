@@ -19,10 +19,12 @@ def standardize(x, mean = None, std = None):
     if mean is None:
         mean = np.mean(x, axis=0)
     x = x - mean
+
     if std is None:
         std = np.std(x, axis=0)
     x[:,std > 0] = x[:,std > 0] / std[std > 0]
     return x, mean, std
+
 
 def build_polynomial_features(x, degree):
     temp_dict = {}
@@ -78,18 +80,26 @@ def batch_iter(y, tx, batch_size, num_batches = None, shuffle = True):
 def replace_missing_data_by_frequent_value(x_train, x_test):
     for i in range(x_train.shape[1]):
         if np.any(x_train[:, i] == -999):
-            temp_train = (x_train[:, i] != -999) #return a list of true or false
+
+            # Collect all the indices of non -999 value
+            temp_train = (x_train[:, i] != -999)
             temp_test = (x_test[:, i] != -999)
+
+            # Calculate frequency
             values, counts = np.unique(x_train[temp_train, i], return_counts = True)
+
+            # Replace -999 by the most frequent value of the columns if there exits at least one non -999 value
             if (len(values) > 1):
                 x_train[~temp_train, i] = values[np.argmax(counts)]
                 x_test[~temp_test, i] = values[np.argmax(counts)]
+
+            # Otherwise, discard the column
             else:
                 x_train[~temp_train, i] = 0
                 x_test[~temp_test, i] = 0
     return x_train, x_test
 
-
+# Split dataset into three subsets
 def group_features_by_jet(x):
     return {  0: x[:, 22] == 0,
               1: x[:, 22] == 1,
@@ -99,15 +109,18 @@ def group_features_by_jet(x):
 def process_data(x_train, x_test):
     x_train, x_test = replace_missing_data_by_frequent_value(x_train, x_test)
 
-    log_cols_index = [0, 1, 2, 5, 7, 9, 10, 13, 16, 19, 21, 23, 26]
-    x_train_log_cols_index = np.log(1 / (1 + x_train[:, log_cols_index]))
-    x_train = np.hstack((x_train, x_train_log_cols_index))
-    x_test_log_cols_index = np.log(1 / (1 + x_test[:, log_cols_index]))
-    x_test = np.hstack((x_test, x_test_log_cols_index))
+    # invese logarithm for all the positive value columns
+    log_index = [0, 1, 2, 5, 7, 9, 10, 13, 16, 19, 21, 23, 26]
+    x_train_log = np.log(1 / (1 + x_train[:, log_index]))
+    x_train = np.hstack((x_train, x_train_log))
+    x_test_log = np.log(1 / (1 + x_test[:, log_index]))
+    x_test = np.hstack((x_test, x_test_log))
 
+    # Standardization
     x_train, mean_train, std_train = standardize(x_train)
     x_test, mean_test, std_test = standardize(x_test, mean_train, std_train)
 
+    # Delete 5 phi features
     x_train = np.delete(x_train, [15,18,20,25,28], 1)
     x_test = np.delete(x_test, [15,18,20,25,28], 1)
 
