@@ -5,32 +5,38 @@ from tools import *
 
 """least_squares_gd"""
 
-def least_squares_gd(y, tx, initial_w, max_iters, gamma):
+def least_squares_GD(y, tx, initial_w, max_iters, gamma):
+
+    # Set default weight
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
     loss = 0
-    w = initial_w
-    for n_iter in range(max_iters):
-        loss = compute_loss(y, tx, w)
-        grad = compute_gradient(y, tx, w)
-        w -= gamma * grad
-    return w, loss
+    weight = initial_w
+
+    for i in range(max_iters):
+        loss = compute_loss(y, tx, weight)
+        gradient = compute_gradient(y, tx, weight)
+        weight -= gamma * gradient
+    return weight, loss
 
 
 """least_squares_sgd"""
 
 def least_squares_sgd(y, tx, initial_w, max_iters, gamma):
+
+    # Set default weight
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
     loss = 0
-    w = initial_w
+    weight = initial_w
     batch_size = 1
-    for n_iter in range(max_iters):
+
+    for i in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size = batch_size, num_batches = 1):
-            loss = compute_loss(y, tx, w)
-            grad = compute_gradient(y_batch, tx_batch, w)
-            w -= gamma * grad
-    return w, loss
+            loss = compute_loss(y, tx, weight)
+            gradient = compute_gradient(y_batch, tx_batch, weight)
+            weight -= gamma * gradient
+    return weight, loss
 
 
 """least squares"""
@@ -38,45 +44,56 @@ def least_squares_sgd(y, tx, initial_w, max_iters, gamma):
 def least_squares(y, tx):
     m = tx.T.dot(tx)
     n = tx.T.dot(y)
-    w = np.linalg.solve(m, n) #sovle: mX=n --> X
-    loss = compute_loss(y, tx, w)
-    return w, loss
+
+    # solve: mX=n --> X
+    weight = np.linalg.solve(m, n)
+    loss = compute_loss(y, tx, weight)
+    return weight, loss
 
 
 """ridge regression"""
 
 def ridge_regression(y, tx, lambda_):
-    regularizer = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
-    a = tx.T.dot(tx) + regularizer
-    b = tx.T.dot(y)
-    w = np.linalg.solve(a, b)
-    loss = compute_loss(y, tx, w)
-    return w, loss
+
+    reg = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
+    m = tx.T.dot(tx) + reg
+    n = tx.T.dot(y)
+    # solve: mX=n --> X
+    weight = np.linalg.solve(m, n)
+    loss = compute_loss(y, tx, weight)
+    return weight, loss
 
 
 """logistic regression"""
 
 def learning_by_gradient_descent(y, tx, w, gamma):
     loss = compute_loss_neg_log_likelihood(y, tx, w)
-    grad = tx.T.dot(sigmoid(tx.dot(w)) - y)
-    w -= gamma * grad
+    gradient = tx.T.dot(sigmoid(tx.dot(w)) - y)
+    w -= gamma * gradient
     return w, loss
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
+
+    # Set default weight
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
-    w = initial_w
+
+
+    weight = initial_w
     losses = []
     threshold = 1e-8
 
-    for iter in range(max_iters):
+    for i in range(max_iters):
+
         # get loss and update w.
-        w, loss = learning_by_gradient_descent(y, tx, w, gamma)
+        weight, loss = learning_by_gradient_descent(y, tx, weight, gamma)
         losses.append(loss)
+
+        # termination condition
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
-    return w, loss
+    return weight, losses[-1]
 
 
 """Regularized Logistic Regression"""
@@ -88,20 +105,23 @@ def penalized_logistic_regression(y, tx, w, lambda_):
     return loss, gradient
 
 def regularized_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+
+    # Set default weight
     if (initial_w is None):
         initial_w = np.zeros(tx.shape[1])
-
-    w = initial_w
+    weight = initial_w
     losses = []
     threshold = 1e-8
 
-    for n_iter in range(max_iters):
+    for i in range(max_iters):
+
         # get loss and update w.
-        loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
-        w = w - gamma * gradient
+        loss, gradient = penalized_logistic_regression(y, tx, weight, lambda_)
+        weight = weight - gamma * gradient
         losses.append(loss)
-        # Stop criteria
+
+        # termination condition
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
 
-    return w, losses[-1]
+    return weight, losses[-1]

@@ -47,7 +47,7 @@ for index in range(len(dict_jets_train)):
 
 print('Start generating prediction files...\n')
 
-OUTPUT_PATH = 'data/output_ridge_regression3.csv'
+OUTPUT_PATH = 'data/output_ridge_regression_final.csv'
 create_csv_submission(ids_test, y_pred, OUTPUT_PATH)
 
-print('Finish!')
+print('Finish! Prediction is saved to {}'.format(OUTPUT_PATH))
