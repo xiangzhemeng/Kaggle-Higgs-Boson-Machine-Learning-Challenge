@@ -41,7 +41,7 @@ Contain 3 auxiliary functions and 2 different cost functions
 - **`compute_loss_neg_log_likelihood`**:  Compute negative log likelihood for logistic regression
 
 ### `lr_helper.py`
-A python contains helper functions required for regularized logistic regression which is implemented in `lr.ipynb`.
+A python file that contains helper functions required for regularized logistic regression which is implemented in `lr.ipynb`.
 
 ## Algorithms for Regression 
 ### `implementations.py`
@@ -58,7 +58,7 @@ Script that generates the exact CSV file submitted on Kaggle.
 
 ### `lr.ipynb`
 #### Regularized Logistic Regression Mentioned in the Report
-A python notebook includes the steps of pre-processing data, creating model and making predictions related to regularized logistic regression.
+A python notebook that includes the steps of pre-processing data, creating model and making predictions related to regularized logistic regression.
 
 ## Others 
 ### `grid_search_for_param.ipynb`
