@@ -56,7 +56,7 @@ Script that generates the exact CSV file submitted on Kaggle.
 ## Regularized Logistic Regression Mentioned in the Report
 ### `lr.ipynb`
 A python notebook includes the steps of pre-processing data, creating model and making predictions related to regularized logistic regression.
-## `lr_helper.py`
+### `lr_helper.py`
 A python contains helper functions required for regularized logistic regression in `lr.ipynb`.
 
 ## Others 
