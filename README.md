@@ -56,15 +56,14 @@ Contain the mandatory implementations of  6 regression models for this project
 ### `main.py`
 Script that generates the exact CSV file submitted on Kaggle.
 
-### `lr.ipynb`
-#### Regularized Logistic Regression Mentioned in the Report
-A python notebook that includes the steps of pre-processing data, creating model and making predictions related to regularized logistic regression.
-
 ## Others 
 ### `grid_search_for_param.ipynb`
 A python notebook used for finding the best hyperparameters by running cross-validation
 ### `ML_Project1_Analysis_Notebook.ipynb`
 A python notebook used for doing some feature engineering tests and finding the best method to do the final prediction by implementing cross validation for all 6 methods and comparing the average test accuracy
+### `lr.ipynb`
+#### Regularized Logistic Regression Mentioned in the Report
+A python notebook that includes the steps of pre-processing data, creating model and making predictions related to regularized logistic regression.
 
 
 
