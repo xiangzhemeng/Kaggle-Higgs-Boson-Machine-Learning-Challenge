@@ -14,7 +14,7 @@ In order to reproduce the result we submitted to Kaggle, please follow the instr
 
 1. Please make sure `Numpy` is installed. This is the only required 3rd party package in this project.
 2. Download `train.csv` and `test.csv` from [Kaggle competition](https://www.kaggle.com/c/epfml-higgs), and put them in the /data
-3. Run python script - `main.py`
+3. Run python script - `run.py`
 
 
 
