@@ -3,9 +3,9 @@
 # EPFL Machine Learning CS-433 Porject1
 
 ### `Team member`:
-- Süha Kagan Köse
 - Sung Lin Chan
 - Xiangzhe Meng
+- Süha Kagan Köse
 
 
 This project held a private contest in [Kaggle competition](https://www.kaggle.com/c/epfml-higgs) and it is similar to the [Higgs Boson Machine Learning Challenge - 2014](https://www.kaggle.com/c/Higgs-boson). For more details about this project requirement,go to [project1_description](#) in this repository.
