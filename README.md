@@ -53,7 +53,7 @@ Contain the mandatory implementations of  6 regression models for this project
 - **`logistic_regression`**: using stochastic gradient descent
 - **`regularized_logistic_regression`**: Regularized logistic regression
 
-### `main.py`
+### `run.py`
 Script that generates the exact CSV file submitted on Kaggle.
 
 ## Others 
