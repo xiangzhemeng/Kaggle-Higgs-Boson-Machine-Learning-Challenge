@@ -22,7 +22,7 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 
 """least_squares_sgd"""
 
-def least_squares_sgd(y, tx, initial_w, max_iters, gamma):
+def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 
     # Set default weight
     if (initial_w is None):
