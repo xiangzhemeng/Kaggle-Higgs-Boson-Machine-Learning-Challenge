@@ -1,14 +1,11 @@
+## Kaggle - Higgs Boson Machine Learning Challenge
 
- 
-# EPFL Machine Learning CS-433 Porject1
+#### EPFL CS-433 Machine LearningPorject1
 
-### `Team member`:
-- Sung Lin Chan
-- Xiangzhe Meng
-- Süha Kagan Köse
+**`Team Members`:** Sung Lin Chan, Xiangzhe Meng, Süha Kagan Köse
 
 
-This project held a private contest in [Kaggle competition](https://www.kaggle.com/c/epfml-higgs) and it is similar to the [Higgs Boson Machine Learning Challenge - 2014](https://www.kaggle.com/c/Higgs-boson). For more details about this project requirement,go to [project1_description](#) in this repository.
+This project held a private contest in [Kaggle competition](https://www.kaggle.com/c/epfml-higgs) and it is similar to the [Higgs Boson Machine Learning Challenge - 2014](https://www.kaggle.com/c/Higgs-boson). For more details about this project requirement,go to [project1_description](#) in this repository. Ultimately, we ranked 8th among 164 teams on the leaderboard.
 
 In order to reproduce the result we submitted to Kaggle, please follow the instruction step by step blew.
 
