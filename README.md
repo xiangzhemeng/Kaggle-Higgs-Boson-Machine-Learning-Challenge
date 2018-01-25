@@ -1,6 +1,4 @@
-## Kaggle Higgs Boson Machine Learning Challenge
-
-#### EPFL CS-433 Machine Learning Project1
+# Kaggle Higgs Boson Machine Learning Challenge
 
 **`Team`:** Hello World
 
